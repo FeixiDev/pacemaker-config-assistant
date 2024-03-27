@@ -411,3 +411,30 @@ class ExtendNode(object):
         cmd = 'hostname'
         result = utils.exec_cmd(cmd)
         return result
+
+    @staticmethod
+    def check_linstordb():
+        cmd = 'crm st | grep linstordb'
+        result = utils.exec_cmd(cmd)
+        if 'Started' in result:
+            return True
+        else:
+            return False
+
+    @staticmethod
+    def check_iscsi(hostname):
+        cmd = f'crm st | grep {hostname}'
+        result = utils.exec_cmd(cmd)
+        if 'Stopped' in result:
+            return False
+        else:
+            return True
+
+    @staticmethod
+    def check_pacemaker():
+        cmd = f'crm st'
+        result = utils.exec_cmd(cmd)
+        if 'command not found' in result:
+            return False
+        else:
+            return True
